@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movie-rec-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: movie-rec-api
+  template:
+    metadata:
+      labels:
+        app: movie-rec-api
+    spec:
+      containers:
+      - name: movie-rec-api
+        image: movie-rec-api:latest
+        imagePullPolicy: Never  # 使用本地镜像
+        ports:
+        - containerPort: 8000
+        env:
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        volumeMounts:
+        - name: model-store
+          mountPath: /app/mlruns
+        - name: data-store
+          mountPath: /app/data
+      volumes:
+      - name: model-store
+        persistentVolumeClaim:
+          claimName: model-pvc
+      - name: data-store
+        persistentVolumeClaim:
+          claimName: data-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: model-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

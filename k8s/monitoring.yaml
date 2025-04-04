@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: movie-rec-monitor
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: movie-rec-api
+  endpoints:
+  - port: metrics
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+      - job_name: 'movie-rec-api'
+        static_configs:
+          - targets: ['movie-rec-api:80']

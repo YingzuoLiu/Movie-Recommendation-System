@@ -1,0 +1,10 @@
+INFO:__main__:Starting performance test...
+INFO:__main__:Starting load test with 20 RPS for 30 seconds
+INFO:__main__:Completed 0 requests
+INFO:__main__:Completed 100 requests
+INFO:__main__:Completed 200 requests
+INFO:__main__:Completed 300 requests
+INFO:__main__:Completed 400 requests
+INFO:__main__:Completed 500 requests
+INFO:__main__:Generating performance report...
+INFO:__main__:Performance report generated: performance_report.html

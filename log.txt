@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "C:\Users\liuzu\movie_rec\api\main.py", line 6, in <module>
+    import mlflow
+ModuleNotFoundError: No module named 'mlflow'
