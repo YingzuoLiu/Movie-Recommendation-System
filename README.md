@@ -45,7 +45,7 @@ A production-ready movie recommendation system with MLOps integration and real-t
 
 1. Clone the repository
 ```bash
-git clone [your-repo-url]
+git clone github.com/YingzuoLiu/Movie-Recommendation-System
 cd movie-rec
 ```
 
